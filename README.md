@@ -1,5 +1,6 @@
 # 📑 Planning Document Text Extraction & Embedding Pipeline 
 
+![generated-image (2) copy](https://github.com/user-attachments/assets/4ef6f28c-c38c-4ec4-b3d0-05a9e4f44aa1)
 
 ## 🎯 Problem Statement  
 
