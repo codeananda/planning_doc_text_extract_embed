@@ -1,6 +1,6 @@
 # Twelve million planning documents, made searchable
 
-**One Docker image, horizontally scaled on spot instances, turned the UK's 12 million planning applications — over 120 million pages — into clean text and embeddings in under 48 hours, at 65–75% below the GPT-4 baseline cost.**
+**One Docker image, horizontally scaled on spot instances, turned the UK's 12 million planning documents — over 120 million pages — into clean text and embeddings in under 48 hours, at 65–75% below the GPT-4 baseline cost.**
 
 ![Cover](assets/cover.png)
 
@@ -11,7 +11,7 @@
 | 12M+ | Documents in 48 hours |
 | 0 | Errors, 63,809-doc portal run |
 | $0 | Per-token embedding cost |
-| 250k | Pages per hour |
+| 250k | Documents per hour |
 
 ## The situation
 
@@ -23,7 +23,7 @@ The brief: extract text from every planning document in the country, embed it fo
 
 ## What I built
 
-The pipeline is a scheduler–worker system on SQS with a dead-letter queue, all packed into a single Docker image that runs as either role. That makes it trivially horizontal: for the national backfill it fanned out across Kubernetes spot instances and cleared 12 million documents in under 48 hours — roughly 250,000 pages an hour. Day to day it runs quietly, ingesting 1,000+ new applications daily.
+The pipeline is a scheduler–worker system on SQS with a dead-letter queue, all packed into a single Docker image that runs as either role. That makes it trivially horizontal: for the national backfill it fanned out across Kubernetes spot instances and cleared 12 million documents in under 48 hours — roughly 250,000 documents an hour. Day to day it runs quietly, ingesting 1,000+ new applications daily.
 
 | Step | What happens |
 |---|---|
@@ -48,24 +48,24 @@ The vision model would sometimes refuse to transcribe perfectly public planning 
 
 ### Embedding costs that scale with the country
 
-At ~64,000 documents per portal, per-token embedding APIs price you out. Self-hosting nomic-embed-text on Ollama took the marginal embedding cost to zero — the dual sentence-and-paragraph granularity became free to have, instead of twice the bill.
+At 64,000 documents from a single portal, per-token embedding APIs price you out. Self-hosting nomic-embed-text on Ollama took the marginal embedding cost to zero — the dual sentence-and-paragraph granularity became free to have, instead of twice the bill.
 
 ### Failure has to be boring
 
-On spot instances, workers die mid-document as a matter of course. Idempotent upserts keyed on document, chunk and level make any rerun free; retries and the dead-letter queue absorb the rest. A final reconciliation pass showed 0 of 63,809 documents unprocessed.
+On spot instances, workers die mid-document as a matter of course. Idempotent upserts keyed on document, chunk and level make any rerun free; retries and the dead-letter queue absorb the rest. The reconciliation pass at the end of a run proves it.
 
 ## Results
 
 | Area | Outcome |
 |---|---|
-| Backfill | 12M+ documents (120M+ pages) in under 48 hours on K8s spot instances — ~250,000 pages/hour |
+| Backfill | 12M+ documents (120M+ pages) in under 48 hours on K8s spot instances — ~250,000 documents/hour |
 | Reliability | 63,809 documents from one council portal in 8h54m with zero errors; reconciliation confirmed 0 unprocessed |
 | Cost | 65–75% below the GPT-4 baseline, with $0 per-token embedding cost |
-| Product | Powers LandGPT's document citations; chatbot engagement up 22%; 1,000+ new applications ingested daily |
+| Product | Powers LandGPT's document citations — the client measured chatbot engagement up 22% after citations shipped; 1,000+ new applications ingested daily |
 
 ## A note on confidentiality
 
-The client is anonymised — a UK planning-intelligence company — though the product name, LandGPT, is public. Throughput and error figures come straight from production run logs; the 12-million-in-48-hours figure is from the initial national backfill on spot instances, the pipeline's largest single run. The engagement behind this work is verifiable on Upwork: a 5.0★ contract over 758 hours.
+The client is anonymised — a UK planning-intelligence company — though the product name, LandGPT, is public. The portal-run figures — 63,809 documents, 8h54m, zero errors — come straight from production run logs; the 12-million-in-48-hours figure is from the initial national backfill on spot instances, the pipeline's largest single run. The engagement is part of an eighteen-month relationship with the same client, which began with a 5.0★ Upwork contract over 758 hours.
 
 ## The full case study
 
