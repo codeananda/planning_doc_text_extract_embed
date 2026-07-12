@@ -11,7 +11,7 @@
 | 12M+ | Documents in 48 hours |
 | 0 | Errors, 63,809-doc portal run |
 | $0 | Per-token embedding cost |
-| 250k | Documents per hour |
+| 2.5M | Pages per hour |
 
 ## The situation
 
@@ -23,7 +23,7 @@ The brief: extract text from every planning document in the country, embed it fo
 
 ## What I built
 
-The pipeline is a scheduler–worker system on SQS with a dead-letter queue, all packed into a single Docker image that runs as either role. That makes it trivially horizontal: for the national backfill it fanned out across Kubernetes spot instances and cleared 12 million documents in under 48 hours — roughly 250,000 documents an hour. Day to day it runs quietly, ingesting 1,000+ new applications daily.
+The pipeline is a scheduler–worker system on SQS with a dead-letter queue, all packed into a single Docker image that runs as either role. That makes it trivially horizontal: for the national backfill it fanned out across Kubernetes spot instances and cleared 12 million documents in under 48 hours — roughly 2.5 million pages an hour. Day to day it runs quietly, ingesting 1,000+ new applications daily.
 
 | Step | What happens |
 |---|---|
@@ -58,7 +58,7 @@ On spot instances, workers die mid-document as a matter of course. Idempotent up
 
 | Area | Outcome |
 |---|---|
-| Backfill | 12M+ documents (120M+ pages) in under 48 hours on K8s spot instances — ~250,000 documents/hour |
+| Backfill | 12M+ documents (120M+ pages) in under 48 hours on K8s spot instances — ~2.5M pages/hour |
 | Reliability | 63,809 documents from one council portal in 8h54m with zero errors; reconciliation confirmed 0 unprocessed |
 | Cost | 65–75% below the GPT-4 baseline, with $0 per-token embedding cost |
 | Product | Powers LandGPT's document citations — the client measured chatbot engagement up 22% after citations shipped; 1,000+ new applications ingested daily |
