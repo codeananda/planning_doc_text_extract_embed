@@ -1,6 +1,6 @@
 # Twelve million planning documents, made searchable
 
-**One Docker image, horizontally scaled on spot instances, turned the UK's 12 million planning documents — over 120 million pages — into clean text and embeddings in under 48 hours, at 65–75% below the GPT-4 baseline cost.**
+**One Docker image, horizontally scaled on spot instances, turned the UK's 12 million planning documents — over 120 million pages — into clean text and embeddings in under 48 hours, with self-hosted embeddings at $0 per token.**
 
 ![Cover](assets/cover.png)
 
@@ -19,7 +19,7 @@ The UK's planning record is enormous and messy. More than 12 million application
 
 My client, a UK planning-intelligence company, needed all of it readable. Their product, LandGPT, answers questions about land and development — and an answer is only worth trusting if it cites the actual document.
 
-The brief: extract text from every planning document in the country, embed it for retrieval, and do it at a cost where national coverage was viable. The GPT-4-based baseline was priced for thousands of documents, not millions.
+The brief: extract text from every planning document in the country, embed it for retrieval, and do it at a cost where national coverage was viable.
 
 ## What I built
 
@@ -60,7 +60,7 @@ On spot instances, workers die mid-document as a matter of course. Idempotent up
 |---|---|
 | Backfill | 12M+ documents (120M+ pages) in under 48 hours on K8s spot instances — ~2.5M pages/hour |
 | Reliability | 63,809 documents from one council portal in 8h54m with zero errors; reconciliation confirmed 0 unprocessed |
-| Cost | 65–75% below the GPT-4 baseline, with $0 per-token embedding cost |
+| Cost | $0 per-token embedding cost on self-hosted models, with an LLM used only as an OCR fallback |
 | Product | Powers LandGPT's document citations — the client measured chatbot engagement up 22% after citations shipped; 1,000+ new applications ingested daily |
 
 ## A note on confidentiality
@@ -78,7 +78,7 @@ A designed PDF version of this case study is in this repo: [08-planning-doc-pipe
 
 ## About Adam
 
-Freelance AI engineer — Expert-Vetted on Upwork (top 1%), 100% Job Success over 70+ projects, $400K+ earned, 5,750+ hours billed. I build production LLM systems for regulated industries: insurance, finance, law.
+Freelance AI engineer — Expert-Vetted on Upwork (top 1%), 100% Job Success over 75+ projects, $500K+ earned, 6,000+ hours billed. I build production LLM systems for regulated industries: insurance, finance, law.
 
 - [Upwork profile](https://www.upwork.com/freelancers/~01153ca9fd0099730e)
 - [GitHub](https://github.com/codeananda)
